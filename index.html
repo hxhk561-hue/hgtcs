@@ -123,7 +123,7 @@ nav{gap:2px;padding:4px 3px}nav button{padding:4px 0;font-size:18px}nav small{di
 <div class="gp"><div id="gf" style="line-height:1.5"></div>
 <button class="go" data-a="pull:1">สุ่ม 1 ครั้ง · 🪙 100</button>
 <button class="go" data-a="pull:10">สุ่ม 10 ครั้ง · 🪙 900</button>
-<p>10 ครั้งการันตีระดับหายากขึ้นไปอย่างน้อย 1 ตัว</p>
+<p>10 ครั้งการันตีระดับตำนานขึ้นไปอย่างน้อย 1 ตัว</p>
 <p><span style="color:#9aa4b2">สามัญ 59.4%</span> · <span style="color:#3fa7ff">หายาก 25%</span> · <span style="color:#b86bff">เอพิค 10%</span> · <span style="color:#ffb02e">ตำนาน 4%</span> · <span style="color:#ff4d6d">เทพ 1%</span> · <span style="color:#4df0ff">เทพเจ้า 0.5%</span> · <span style="color:#ff7bf5">พ่อเทพปั้น 0.1%</span></p>
 <p>ได้ตัวซ้ำ = เพิ่มดาว (สูงสุด 5★ ดาวละ +12% ค่าพลัง) ถ้าดาวเต็มแล้วได้ 🪙 40 คืน</p></div>
 <div id="gr"><p style="color:var(--mu)">กดสุ่มเพื่อรับตัวละครใหม่</p></div>
@@ -207,7 +207,7 @@ function card(i,s,d=0,tag=''){const c=C[i],t=s?sts(c,s):0;
 return `<div class="cd r${c.r}${s?'':' lk'}" style="animation-delay:${d}ms">${tag?`<small class=tg>${tag}</small>`:''}<div>${s?ic(i,48):'<span style="font-size:38px">❓</span>'}</div><b>${s?c.n:'???'}</b><div style="color:var(--c)">${R[c.r]} ${'★'.repeat(s)}</div>${s?`<div>❤️${t.hp} ⚔️${t.atk} ⚡${t.spd}</div><div style="color:var(--mu)">${SK[c.k]}</div>`:''}</div>`}
 const gk=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()},
 gOpen=()=>{const d=new Date(),w=d.getDay();return(w==0||w==6)&&d.getHours()*60+d.getMinutes()<1375&&S.gd!=gk()};
-function rgf(){$('#gf').innerHTML=gOpen()?'<button class=go data-a="claim">🎁 รับฟรี 2 ตัว (เทพขึ้นไป)</button><br>แจกเสาร์-อาทิตย์ ถึง 22:55':'🎁 แจกฟรี: เสาร์-อาทิตย์ ก่อน 22:55 วันละครั้ง'+(S.gd==gk()?' (วันนี้รับแล้ว)':'')}
+function rgf(){$('#gf').innerHTML=gOpen()?'<button class=go data-a="claim">🎁 รับฟรี 2 ตัว (เทพขึ้นไป)</button><br>แจก ทุกวัน ถึง 00:00':'🎁 แจกฟรี: ทุกวัน ก่อน 00:00 วันละครั้ง'+(S.gd==gk()?' (วันนี้รับแล้ว)':'')}
 function tab(n){
 document.querySelectorAll('.sc').forEach((e,i)=>e.classList.toggle('on',i==n));
 document.querySelectorAll('nav button').forEach((e,i)=>e.classList.toggle('on',i==n));
