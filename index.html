@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ศึกสังเวียนสุ่มตัว</title>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a1330;--sf:#261c45;--sf2:#37295f;--tx:#f4eeff;--mu:#a99cc9;--gold:#ffc933}
+.r0{--c:#9aa4b2}.r1{--c:#3fa7ff}.r2{--c:#b86bff}.r3{--c:#ffb02e}.r4{--c:#ff4d6d}.r5{--c:#4df0ff}.r6{--c:#ff7bf5}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font:15px Sarabun,sans-serif;-webkit-tap-highlight-color:transparent}
+button{font:500 15px Mitr,sans-serif;color:var(--tx);border:0;border-radius:10px;background:var(--sf2);padding:8px 14px;cursor:pointer}
+button:disabled{opacity:.4}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.go{background:var(--gold);color:#2a1d00}
+input,select,textarea{font:16px Sarabun;padding:8px;border-radius:8px;border:2px solid var(--sf2);background:var(--bg);color:var(--tx)}
+h2{font:500 22px Mitr;margin:0 0 8px}
+#app{position:fixed;inset:0;display:grid;grid-template-columns:84px 1fr;grid-template-rows:46px minmax(0,1fr)}
+header{grid-column:1/3;display:flex;align-items:center;gap:16px;padding:0 14px;background:var(--sf);font:500 15px Mitr;white-space:nowrap;overflow:hidden}
+.g{color:var(--gold)}
+nav{display:flex;flex-direction:column;gap:6px;padding:8px 6px;overflow-y:auto}
+nav button{width:100%;padding:8px 2px;font-size:20px;line-height:1.25;background:none;color:var(--mu)}
+nav small{font-size:12px}nav .on{background:var(--sf2);color:var(--tx)}
+main{position:relative}
+.sc{display:none;position:absolute;inset:0;padding:8px 12px 10px 4px;flex-direction:column;overflow:auto;gap:8px}
+.sc.on{display:flex}
+#s1.on{flex-direction:row;gap:14px}
+#ar{flex:1;min-height:0;position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(#41307e 0 58%,#1e7774 58%);display:flex;justify-content:space-around;align-items:flex-end;padding:0 3% 5%}
+#ar::after{content:'';position:absolute;left:0;right:0;bottom:0;height:42%;background:repeating-conic-gradient(#0003 0 25%,transparent 0 50%) 0 0/24px 24px;pointer-events:none}
+#lg{position:absolute;top:8px;left:0;right:0;text-align:center;font:500 16px Mitr;text-shadow:0 2px 0 #0008;padding:0 10px;z-index:1}
+.fg{width:36%;position:relative;text-align:center;z-index:1}
+.fg.dead{opacity:.5}
+.em{display:block;line-height:0}
+#fl .em{transform:scaleX(-1)}
+.px{image-rendering:pixelated;display:block;margin:0 auto}
+.em .px{width:clamp(56px,28vh,130px);height:auto;animation:bob 1s steps(2) infinite}
+.hit .px{animation:bob 1s steps(2) infinite,fh .3s}
+.dead .px{animation:die .5s steps(5) forwards}
+.nm{font:500 14px Mitr;color:var(--c);text-shadow:0 1px 0 #000}
+.hb{height:12px;background:#0007;border-radius:6px;overflow:hidden;margin:3px auto 0;width:80%}
+.hb i{display:block;height:100%;width:100%;background:#5be28a;transition:width .3s}
+.hv{font-size:12px;height:15px}.stl{height:18px;font-size:14px}
+.fl{position:absolute;left:42%;top:0;font:500 26px Mitr;color:#fff;text-shadow:0 2px 0 #000;animation:up .8s forwards;pointer-events:none}
+.fl.c{color:var(--gold);font-size:36px}
+.aL{animation:aL .4s}.aR{animation:aR .4s}.hit{animation:hit .3s}
+@keyframes aL{50%{transform:translateX(22vw) scale(1.15)}}
+@keyframes aR{50%{transform:translateX(-22vw) scale(1.15)}}
+@keyframes hit{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+@keyframes bob{50%{transform:translateY(-5px)}}
+@keyframes fh{50%{filter:brightness(4) saturate(0)}}
+@keyframes die{to{transform:translateY(22px) rotate(90deg);opacity:.3}}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+.fx{position:absolute;left:25%;top:15%;font-size:56px;animation:fx .5s forwards;pointer-events:none}
+@keyframes fx{from{transform:scale(.3)}to{transform:scale(1.7);opacity:0}}
+.pt{position:absolute;left:50%;top:40%;width:6px;height:6px;animation:pt .5s steps(5) forwards;pointer-events:none}
+@keyframes pt{to{transform:translate(var(--x),var(--y));opacity:0}}
+#ar.sk{animation:sk .25s}
+@keyframes sk{25%{transform:translate(-6px,3px)}75%{transform:translate(6px,-3px)}}
+#sk{position:absolute;left:6px;top:36px;z-index:2;display:flex;flex-direction:column;gap:4px}
+#sk button{width:58px;padding:3px 2px;font-size:19px;line-height:1.1;border:2px solid transparent}
+#sk small{display:block;font-size:10px}
+#sk .rd{border-color:var(--gold)}#sk .pn{background:var(--gold);color:#2a1d00}#sk .no{opacity:.45}
+#sp{font-size:12px}
+#bb{display:flex;gap:8px;height:72px}
+#st{flex:1;display:flex;gap:8px;overflow-x:auto;padding:2px}
+#ab{display:flex;flex-direction:column;gap:4px;justify-content:center}#ab button{font-size:12px;padding:4px 8px}
+.mc{flex:none;width:84px;border:2px solid var(--c);border-radius:10px;background:var(--sf);text-align:center;font-size:11px;padding:2px;cursor:pointer;line-height:1.25}
+.mc.on{background:var(--sf2);box-shadow:0 0 0 2px var(--gold)}
+.mc .px{width:32px;height:32px}
+.mc .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#fb{padding:0 22px;font-size:19px}
+.gp{width:230px;flex:none;display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--mu);overflow:auto}
+.gp p{margin:0}
+#gr,#cg{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start;padding:4px}
+#gr{flex:1;overflow:auto}
+.cd{width:118px;padding:8px 4px;border-radius:12px;background:var(--sf);border:2px solid var(--c);text-align:center;font-size:12px;line-height:1.4;animation:pop .4s backwards}
+.cd b{font:500 13px Mitr}.cd .px{width:48px;height:48px}
+.cd.lk{filter:grayscale(1) brightness(.45)}
+.cd.r3{box-shadow:0 0 12px var(--c)}
+.cd.r4,.cd.r5,.cd.r6{animation:pop .4s backwards,glow 1.6s infinite alternate}
+.tg{display:block;color:var(--gold);font-weight:600}
+@keyframes pop{from{transform:scale(.3) rotate(-8deg);opacity:0}}
+@keyframes glow{to{box-shadow:0 0 22px var(--c),0 0 4px #fff}}
+table{border-collapse:collapse;width:100%;max-width:520px}
+td{padding:6px 10px;border-bottom:1px solid var(--sf2)}tr.me{color:var(--gold)}
+#ov{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:9}
+#ov.on{display:flex}
+#ov>div{background:var(--sf);padding:18px 28px;border-radius:16px;text-align:center;max-width:86%;max-height:92%;overflow:auto}
+#ov p{margin:6px 0 12px}
+#rot{display:none;position:fixed;inset:0;z-index:99;background:var(--bg);align-items:center;justify-content:center;flex-direction:column;font:500 22px Mitr;text-align:center;gap:10px}
+@media(orientation:portrait){#rot{display:flex}}
+@media(max-height:430px){
+#app{grid-template-columns:54px 1fr;grid-template-rows:30px minmax(0,1fr)}
+header{gap:10px;padding:0 8px;font-size:12px}header button{font-size:12px;padding:1px 6px}
+nav{gap:2px;padding:4px 3px}nav button{padding:4px 0;font-size:18px}nav small{display:none}
+.sc{padding:4px 6px 4px 2px}.nm{font-size:11px}.hv{font-size:10px;height:12px}.hb{height:9px}
+#lg{font-size:12px;top:3px}#sk{top:24px}#sk button{width:48px;font-size:16px}
+#bb{height:50px}.mc{width:64px;font-size:10px}.mc .px{width:24px;height:24px}
+#fb{font-size:15px;padding:0 12px}.gp{width:160px;font-size:11px}.gp button{font-size:12px;padding:5px 6px}
+.cd{width:92px;font-size:10px}.cd .px{width:36px;height:36px}td{padding:3px 8px}h2{font-size:17px}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style></head><body>
+<div id="rot"><b>📱</b>กรุณาหมุนจอเป็นแนวนอน</div>
+<div id="app">
+<header id="hd"></header>
+<nav>
+<button data-a="tab:0">⚔️<br><small>ต่อสู้</small></button>
+<button data-a="tab:1">🎰<br><small>สุ่มตัว</small></button>
+<button data-a="tab:2">📖<br><small>ตัวละคร</small></button>
+<button data-a="tab:3">🏅<br><small>อันดับ</small></button>
+<button data-a="tab:4">🔁<br><small>เทรด</small></button>
+<button data-a="tab:5" id="nadm" style="display:none">🔧<br><small>แอดมิน</small></button>
+</nav>
+<main>
+<section class="sc" id="s0">
+<div id="ar"><div id="lg"></div>
+<div id="sk"><div id="sp"></div><button data-a="skl:ult"></button><button data-a="skl:rage"></button><button data-a="skl:guard"></button><button data-a="skl:heal"></button></div>
+<div class="fg" id="fl"><div class="nm"></div><span class="em"></span><div class="hb"><i></i></div><div class="hv"></div><div class="stl" id="sl"></div></div>
+<div class="fg" id="fr"><div class="nm"></div><span class="em"></span><div class="hb"><i></i></div><div class="hv"></div><div class="stl" id="sr"></div></div>
+</div>
+<div id="bb"><div id="st"></div><div id="ab"><button id="au" data-a="auto">🔁 ออโต้</button><button id="sd" data-a="spd">⏩ x1</button></div><button class="go" id="fb" data-a="fight">⚔️ ต่อสู้!</button></div>
+</section>
+<section class="sc" id="s1">
+<div class="gp"><div id="gf" style="line-height:1.5"></div>
+<button class="go" data-a="pull:1">สุ่ม 1 ครั้ง · 🪙 100</button>
+<button class="go" data-a="pull:10">สุ่ม 10 ครั้ง · 🪙 900</button>
+<p>10 ครั้งการันตีระดับหายากขึ้นไปอย่างน้อย 1 ตัว</p>
+<p><span style="color:#9aa4b2">สามัญ 59.4%</span> · <span style="color:#3fa7ff">หายาก 25%</span> · <span style="color:#b86bff">เอพิค 10%</span> · <span style="color:#ffb02e">ตำนาน 4%</span> · <span style="color:#ff4d6d">เทพ 1%</span> · <span style="color:#4df0ff">เทพเจ้า 0.5%</span> · <span style="color:#ff7bf5">พ่อเทพปั้น 0.1%</span></p>
+<p>ได้ตัวซ้ำ = เพิ่มดาว (สูงสุด 5★ ดาวละ +12% ค่าพลัง) ถ้าดาวเต็มแล้วได้ 🪙 40 คืน</p></div>
+<div id="gr"><p style="color:var(--mu)">กดสุ่มเพื่อรับตัวละครใหม่</p></div>
+</section>
+<section class="sc" id="s2"><p id="cc" style="margin:0 4px 6px"></p><div id="cg"></div></section>
+<section class="sc" id="s3"><h2>🏅 อันดับชนะติดกัน</h2><div id="bd"></div>
+<p style="color:var(--mu);font-size:12px">เซฟอยู่ในเบราว์เซอร์เครื่องนี้ (เปลี่ยนเครื่อง/ล้างแคชจะหาย ให้กดสำรองเก็บรหัสไว้) · <button data-a="bk" style="font-size:12px;padding:3px 8px">💾 สำรอง</button> <button data-a="rsr" style="font-size:12px;padding:3px 8px">📥 กู้คืน</button> <button data-a="rs" style="font-size:12px;padding:3px 8px">ล้างข้อมูล</button></p></section>
+<section class="sc" id="s4"><b style="font:500 15px Mitr">🔁 ส่งตัวละครให้เพื่อน (ผ่านรหัส)</b>
+<p style="margin:0;color:var(--mu);font-size:12px">แตะตัวที่จะส่ง → สร้างรหัส → ส่งรหัสให้เพื่อน ตัวที่ส่งจะหายจากคลังคุณทันที เพื่อนวางรหัสด้านล่างเพื่อรับ (รหัสใช้ได้ครั้งเดียว) ต้องเหลือตัวละครอย่างน้อย 1 ตัว</p>
+<div id="tl" style="display:flex;gap:8px;overflow-x:auto;padding:4px 2px;flex:none"></div>
+<div><button class="go" data-a="send">สร้างรหัสส่ง</button></div>
+<textarea id="ti" rows="2" placeholder="วางรหัสที่ได้รับจากเพื่อน"></textarea>
+<div><button class="go" data-a="recv">รับตัวละคร</button></div></section>
+<section class="sc" id="s5"><h2>🔧 โหมดแอดมิน</h2>
+<div><input id="ac" type="number" min="1" placeholder="จำนวนเหรียญ" style="width:150px"> <button class="go" data-a="mcoin">เสกเหรียญ</button></div>
+<div><select id="ach"></select> <select id="ast"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select>★ <button class="go" data-a="mchar">เสกตัวละคร</button></div>
+<div><button data-a="mall">เสกครบทุกตัว 5★</button> <button data-a="mgd">รีเซ็ตสิทธิ์รับแจกวันนี้</button></div></section>
+</main></div>
+<div id="ov"><div></div></div>
+<script>
+const R=['สามัญ','หายาก','เอพิค','ตำนาน','เทพ','เทพเจ้า','พ่อเทพปั้น'],SK=['คริติคอล','ดูดเลือด','โจมตีสองครั้ง','สตันศัตรู'],
+RC=['#9aa4b2','#3fa7ff','#b86bff','#ffb02e','#ff4d6d','#4df0ff','#ff7bf5'],
+BS=[[100,12,10],[140,17,11],[200,25,12],[290,36,13],[420,52,14],[620,78,15],[900,110,16]],
+AT=[[1.3,.85,.9],[.85,1.3,1],[.9,.95,1.3]],
+SC={ult:3,rage:2,guard:2,heal:3},SKL={ult:'ท่าไม้ตาย',rage:'คลั่ง',guard:'ป้องกัน',heal:'ฟื้นฟู'},SKI={ult:'💥',rage:'😡',guard:'🛡️',heal:'💚'},
+C=[[0,'🐸','กบนักเลง'],[0,'🐔','ไก่ชนเลือดร้อน'],[0,'🐀','หนูไว'],[0,'🐷','หมูทอง'],[0,'🦆','เป็ดน้อย'],[0,'🐕','หมาวัดป่วน'],
+[1,'🦊','จิ้งจอกเจ้าเล่ห์'],[1,'🐺','หมาป่าเดี่ยว'],[1,'🦅','อินทรีสายฟ้า'],[1,'🐊','จระเข้บึงใหญ่'],[1,'🐗','หมูป่าพุ่งชน'],[1,'🦉','นกฮูกราตรี'],
+[2,'🐯','พยัคฆ์ผยอง'],[2,'🦈','ฉลามสังเวียน'],[2,'🐘','ช้างศึก'],[2,'🦂','แมงป่องพิษ'],[2,'🐻','หมีเหล็ก'],
+[3,'🦁','ราชสีห์'],[3,'🐉','มังกรไฟ'],[3,'🦄','ยูนิคอร์นแสง'],[3,'🦍','คิงคอง'],
+[4,'😈','จ้าวนรก'],[4,'🐲','พญานาค'],[4,'🤖','จักรกลสวรรค์'],
+[4,'🧛','ราชันย์เลือด'],[4,'🥷','นินจาเงา'],[5,'☀️','สุริยเทพ'],[5,'🌙','จันทราเทวี'],[5,'⚡','เทพอสุนีบาต'],
+[6,'🌌','ผู้สร้างจักรวาล'],[6,'⏳','ราชันย์กาลเวลา'],[6,'🕳️','เจ้าแห่งความว่างเปล่า'],[6,'🗿','มหาเทพปฐพี'],[6,'🐲','จ้าวมังกรฟ้า']
+].map((c,i)=>({r:c[0],e:c[1],n:c[2],k:i%4,t:i%3})),
+W=[59.4,25,10,4,1,.5,.1],K='gacha-arena-v1',KB='gacha-arena-bk',ADMIN_PW='admin1234',$=s=>document.querySelector(s),
+esc=s=>String(s).replace(/[&<>"]/g,c=>'&#'+c.charCodeAt(0)+';'),
+sts=(c,s)=>{const b=BS[c.r],a=AT[c.t],m=1+.12*(s-1);return{hp:Math.round(b[0]*a[0]*m),atk:Math.round(b[1]*a[1]*m),spd:+(b[2]*a[2]).toFixed(1)}},
+pw=i=>{const t=sts(C[i],S.own[i]);return t.hp*t.atk*t.spd},
+rw=s=>25+s*15+s*s*3,ids=r=>C.map((c,i)=>i).filter(i=>C[i].r==r),pick=a=>a[Math.random()*a.length|0],
+rd=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},
+valid=o=>o&&typeof o=='object'&&o.name&&typeof o.coins=='number'&&o.own&&typeof o.own=='object',
+RN=Math.random;
+let S=rd(K),busy=0,AU=0,SPD=1,ADM=0,TS=-1,lastBk=0,AC,nmT=0,nmN=0,ME=null;
+const wait=ms=>new Promise(r=>setTimeout(r,ms/SPD));
+if(!valid(S)){try{const raw=localStorage.getItem(K);if(raw)localStorage.setItem(K+'-corrupt',raw)}catch(e){}
+S=[...(rd(KB)||[])].reverse().find(valid)||null}
+if(!S){const n=(prompt('ตั้งชื่อผู้เล่น')||'ผู้เล่น').slice(0,12),f=pick(ids(0));S={name:n,coins:300,streak:0,earned:0,rid:Date.now(),own:{[f]:1},sel:f,board:[]}}
+S.board=Array.isArray(S.board)?S.board:[];S.coins=Math.max(0,+S.coins||0);S.streak=+S.streak||0;S.earned=+S.earned||0;S.rid=S.rid||Date.now();
+S.tu=Array.isArray(S.tu)?S.tu:[];S.sent=Array.isArray(S.sent)?S.sent:[];S.gd=S.gd||'';
+{const o=Object.keys(S.own).map(Number).filter(i=>C[i]);if(!C[S.sel]||!S.own[S.sel])S.sel=o[0]}
+const save=()=>{try{const j=JSON.stringify(S),old=localStorage.getItem(K);
+if(old&&old!==j&&Date.now()-lastBk>3e5){try{const b=rd(KB)||[];b.push(JSON.parse(old));while(b.length>6)b.shift();localStorage.setItem(KB,JSON.stringify(b));lastBk=Date.now()}catch(e){}}
+localStorage.setItem(K,j)}catch(e){}};save();
+// pixel sprites (generated per character)
+const SPR={},rng=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+function sp(i){if(SPR[i])return SPR[i];const c=C[i],r=rng(i*7919+11),col=RC[c.r],N=12,g=[];
+for(let y=0;y<N;y++)g.push(Array(N).fill(0));
+for(let y=1;y<N-1;y++)for(let x=1;x<=5;x++){const p=.9-Math.abs(y-6)*.1-(x==1?.35:0);g[y][x]=g[y][N-1-x]=r()<p?1:0}
+for(let y=3;y<=9;y++)g[y][5]=g[y][6]=1;
+const o=document.createElement('canvas');o.width=o.height=N;const x=o.getContext('2d');
+for(let y=0;y<N;y++)for(let j=0;j<N;j++)if(!g[y][j]&&(g[y-1]&&g[y-1][j]||g[y+1]&&g[y+1][j]||g[y][j-1]||g[y][j+1])){x.fillStyle='#10081f';x.fillRect(j,y,1,1)}
+for(let y=0;y<N;y++)for(let j=0;j<N;j++)if(g[y][j]){x.fillStyle=col;x.fillRect(j,y,1,1);x.fillStyle=y<=3?'#ffffff33':y>=8?'#00000044':'#0000';x.fillRect(j,y,1,1)}
+if(c.r>=3){x.fillStyle='#ffd84a';[2,9].forEach(j=>{x.fillRect(j,0,1,2)})}
+if(c.r>=6){x.fillStyle='#ffd84a';for(let j=4;j<=7;j++)x.fillRect(j,0,1,1)}
+x.fillStyle='#fff';x.fillRect(4,4,1,1);x.fillRect(7,4,1,1);x.fillStyle='#000';x.fillRect(4,5,1,1);x.fillRect(7,5,1,1);
+return SPR[i]=o.toDataURL()}
+const ic=(i,z)=>`<img class=px src="${sp(i)}" width=${z} height=${z} alt="">`;
+// sound
+function tone(f,d,t,v,s,e){if(S.mu)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state=='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime+(s||0);o.type=t||'square';o.frequency.setValueAtTime(f,n);o.frequency.exponentialRampToValueAtTime(e||f,n+d);g.gain.setValueAtTime(v||.15,n);g.gain.exponentialRampToValueAtTime(.001,n+d);o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d)}catch(_){}}
+const SF={sel:()=>tone(660,.08,'triangle'),start:()=>tone(200,.4,'sawtooth',.12,0,500),swing:()=>tone(250,.12,'sawtooth',.08,0,800),
+hit:()=>{tone(200,.15,'square',.2,0,40);tone(90,.12,'sawtooth',.2,0,30)},crit:()=>{SF.hit();tone(900,.25,'square',.12,.04,1800)},
+stun:()=>tone(600,.3,'sine',.15,0,150),win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.2,'square',.12,i*.12)),
+lose:()=>[400,330,260,180].forEach((f,i)=>tone(f,.25,'sawtooth',.12,i*.16)),coin:()=>{tone(988,.08,'square',.1);tone(1319,.25,'square',.1,.08)},
+no:()=>tone(150,.25,'square',.15),skill:()=>{tone(400,.3,'sawtooth',.12,0,1200);tone(800,.2,'square',.08,.1,1600)},pull:()=>tone(200,.35,'sine',.15,0,1400)},
+sfx=n=>SF[n]&&SF[n]();
+const ov=h=>{$('#ov>div').innerHTML=h;$('#ov').classList.add('on')},x=()=>$('#ov').classList.remove('on'),
+lg=t=>$('#lg').textContent=t,
+hd=()=>{$('#hd').innerHTML=`<button data-a="mt" style="padding:2px 8px">${S.mu?'🔇':'🔊'}</button><button data-a="fs" style="padding:2px 8px">⛶</button><span data-a="nm">👤 ${esc(S.name)}</span><span class=g>🪙 ${S.coins}</span><span>🔥 ชนะติดกัน ${S.streak}</span><span style="color:var(--mu)">ชนะครั้งหน้า +${rw(S.streak+1)} 🪙</span>`},
+an=(el,c)=>{el.classList.remove('aL','aR','hit');void el.offsetWidth;el.classList.add(c)},
+nx=()=>{x();busy=0;$('#fb').disabled=0;$('#fb').textContent='⚔️ ต่อสู้!';hd();strip()};
+function card(i,s,d=0,tag=''){const c=C[i],t=s?sts(c,s):0;
+return `<div class="cd r${c.r}${s?'':' lk'}" style="animation-delay:${d}ms">${tag?`<small class=tg>${tag}</small>`:''}<div>${s?ic(i,48):'<span style="font-size:38px">❓</span>'}</div><b>${s?c.n:'???'}</b><div style="color:var(--c)">${R[c.r]} ${'★'.repeat(s)}</div>${s?`<div>❤️${t.hp} ⚔️${t.atk} ⚡${t.spd}</div><div style="color:var(--mu)">${SK[c.k]}</div>`:''}</div>`}
+const gk=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()},
+gOpen=()=>{const d=new Date(),w=d.getDay();return(w==0||w==6)&&d.getHours()*60+d.getMinutes()<1375&&S.gd!=gk()};
+function rgf(){$('#gf').innerHTML=gOpen()?'<button class=go data-a="claim">🎁 รับฟรี 2 ตัว (เทพขึ้นไป)</button><br>แจกเสาร์-อาทิตย์ ถึง 22:55':'🎁 แจกฟรี: เสาร์-อาทิตย์ ก่อน 22:55 วันละครั้ง'+(S.gd==gk()?' (วันนี้รับแล้ว)':'')}
+function tab(n){
+document.querySelectorAll('.sc').forEach((e,i)=>e.classList.toggle('on',i==n));
+document.querySelectorAll('nav button').forEach((e,i)=>e.classList.toggle('on',i==n));
+if(n==1)rgf();
+if(n==2){const o=Object.keys(S.own).length;$('#cc').textContent=`สะสมแล้ว ${o}/${C.length} ตัว`;$('#cg').innerHTML=C.map((c,i)=>card(i,S.own[i]||0)).join('')}
+if(n==3)$('#bd').innerHTML=S.board.length?'<table>'+S.board.map((e,i)=>`<tr class="${e.id==S.rid?'me':''}"><td>${i+1}</td><td>${esc(e.n)}${e.a?' 🔧':''}</td><td>🔥 ${e.s}</td><td>🪙 ${e.e}</td></tr>`).join('')+'</table>':'<p style="color:var(--mu)">ยังไม่มีสถิติ ลงสนามเลย!</p>';
+if(n==4)rtr();
+if(n==5&&ADM)$('#ach').innerHTML=C.map((c,i)=>`<option value="${i}">${R[c.r]} · ${c.n}</option>`).join('')}
+function rtr(){$('#tl').innerHTML=Object.keys(S.own).map(Number).filter(i=>C[i]).sort((a,b)=>pw(b)-pw(a)).map(i=>`<div class="mc r${C[i].r}${i==TS?' on':''}" data-a="tsel:${i}"><span>${ic(i,32)}</span><div class=n>${C[i].n}</div>${'★'.repeat(S.own[i])}</div>`).join('')}
+function strip(){const o=Object.keys(S.own).map(Number).filter(i=>C[i]).sort((a,b)=>pw(b)-pw(a));
+$('#st').innerHTML=o.map(i=>`<div class="mc r${C[i].r}${i==S.sel?' on':''}" data-i="${i}"><span>${ic(i,32)}</span><div class=n>${C[i].n}</div>${'★'.repeat(S.own[i])}</div>`).join('');if(!busy)prev()}
+// battle
+const mk=(i,s,m=1)=>{const c=C[i],t=sts(c,s),h=Math.round(t.hp*m);return{c,s,i,k:c.k,hp:h,max:h,atk:t.atk*m,spd:t.spd,e:0,sp:0,st:{},sh:0,pend:0}};
+function bar(p,f){const e=$('#f'+p);e.querySelector('i').style.width=f.hp/f.max*100+'%';e.querySelector('.hv').textContent=f.hp+'/'+f.max}
+const ss=(p,f)=>$('#s'+p).textContent=(f.st.burn>0?'🔥':'')+(f.st.poi>0?'☠️':'')+(f.st.rage>0?'😡':'')+(f.st.stun?'💫':'')+(f.sh?'🛡️':'');
+function setF(p,f){const e=$('#f'+p);e.className='fg r'+f.c.r;e.querySelector('.nm').textContent=f.c.n+' '+'★'.repeat(f.s);e.querySelector('.em').innerHTML=ic(f.i,96);bar(p,f);ss(p,f)}
+function prev(){setF('l',mk(S.sel,S.own[S.sel]));const e=$('#fr');e.className='fg r0';e.querySelector('.nm').textContent='ศัตรูปริศนา';e.querySelector('.em').innerHTML='<span style="font-size:64px;line-height:1.2">❓</span>';e.querySelector('i').style.width='100%';e.querySelector('.hv').textContent='';$('#sr').textContent='';$('#sk').style.display='none';lg(Object.keys(S.own).length<2?'มีตัวเดียว สุ่มตัวเพิ่มที่แท็บ 🎰':'แตะเลือกตัวละครด้านล่าง แล้วกดต่อสู้')}
+function enemy(){const s=S.streak,r=Math.min(6,Math.floor((s+Math.random()*3)/3.5));return mk(pick(ids(r)),Math.min(5,1+Math.floor(Math.random()*(1+s/5))),1+s*.02)}
+function fl(el,d,cr,ico){const f=document.createElement('span');f.className='fl'+(cr?' c':'');f.textContent=typeof d=='number'?'-'+d:d;el.appendChild(f);const g=document.createElement('span');g.className='fx';g.textContent=ico||(cr?'⚡':'💥');el.appendChild(g);
+for(let j=0;j<7;j++){const q=document.createElement('i');q.className='pt';q.style.background=j%2?'#ffd84a':'#fff';q.style.setProperty('--x',(Math.random()*90-45)+'px');q.style.setProperty('--y',(Math.random()*90-45)+'px');el.appendChild(q);setTimeout(()=>q.remove(),520)}
+if(cr){const a=$('#ar');a.classList.remove('sk');void a.offsetWidth;a.classList.add('sk')}setTimeout(()=>{f.remove();g.remove()},800)}
+function skui(){const m=ME;$('#sk').style.display=m&&busy?'flex':'none';if(!m)return;
+document.querySelectorAll('#sk button').forEach(b=>{const k=b.dataset.a.split(':')[1];b.innerHTML=SKI[k]+'<small>'+SKL[k]+' '+SC[k]+'</small>';b.className=m.pend==k?'pn':m.sp>=SC[k]?'rd':'no'});
+$('#sp').textContent='พลัง '+'●'.repeat(m.sp)+'○'.repeat(5-m.sp)}
+const ch=a=>{if(a.sp>=3&&a.hp<a.max*.4)return'heal';if(a.sp>=3)return'ult';if(a.sp>=2&&!a.st.rage&&RN()<.5)return'rage';if(a.sp>=2&&a.hp<a.max*.6&&!a.sh&&RN()<.4)return'guard';return''};
+async function act(a,b,p,q){
+const ea=$('#f'+p),eb=$('#f'+q),pl=p=='l'&&!AU;
+for(const[k,ico,f]of[['burn','🔥',.07],['poi','☠️',.05]])if(a.st[k]>0){a.st[k]--;const d=Math.max(1,Math.round(a.max*f));a.hp=Math.max(0,a.hp-d);bar(p,a);fl(ea,d,0,ico);ss(p,a);lg(a.c.n+' เจ็บจาก '+ico+' -'+d);await wait(450);if(a.hp<=0)return}
+if(a.st.stun){a.st.stun=0;ss(p,a);lg(a.c.n+' ติดสตัน ข้ามตา!');await wait(650);return}
+a.sp=Math.min(5,a.sp+1);let key=pl?a.pend:ch(a);a.pend=0;if(key&&a.sp<SC[key])key='';
+if(key){a.sp-=SC[key];sfx('skill');lg(a.c.n+' ใช้ '+SKL[key]+'!')}
+if(p=='l')skui();
+if(key=='heal'){const h=Math.round(a.max*.35);a.hp=Math.min(a.max,a.hp+h);bar(p,a);fl(ea,'+'+h,0,'💚');await wait(650);ss(p,a);return}
+if(key=='guard'){a.sh=1;ss(p,a);await wait(650);return}
+if(key=='rage'){a.st.rage=3;ss(p,a);await wait(450)}
+const n=a.k==2&&RN()<.3&&!key?2:1;
+for(let h=0;h<n&&b.hp>0;h++){
+let d=Math.round(a.atk*(a.st.rage>0?1.4:1)*(key=='ult'?2.5:1)*(.85+RN()*.3)),cr=a.k==0&&RN()<.3,sn=0,tx='';
+if(cr)d*=2;if(b.sh){d=Math.round(d/2);b.sh=0}
+b.hp=Math.max(0,b.hp-d);
+if(a.k==1){a.hp=Math.min(a.max,a.hp+Math.round(d*.3));bar(p,a)}
+if(a.k==3&&b.hp>0&&!b.st.stun&&RN()<.25){b.st.stun=1;sn=1}
+if(b.hp>0){if(key=='ult'){b.st.burn=3;tx=' 🔥'}else if(a.c.r>=2&&RN()<.2+.04*a.c.r){if(a.i%2){b.st.burn=3;tx=' 🔥ติดไฟ'}else{b.st.poi=4;tx=' ☠️ติดพิษ'}}}
+an(ea,p=='l'?'aL':'aR');sfx('swing');await wait(180);
+an(eb,'hit');sfx(cr?'crit':'hit');if(sn)setTimeout(()=>sfx('stun'),250);bar(q,b);ss(q,b);fl(eb,d,cr);
+lg(`${a.c.n} โจมตี ${d}${cr?' คริติคอล!':''}${sn?' 💫 สตัน!':''}${tx}`);await wait(450)}
+if(a.st.rage>0&&key!='rage')a.st.rage--;ss(p,a)}
+async function fight(){
+if(busy)return;busy=1;$('#fb').disabled=1;$('#fb').textContent='กำลังสู้...';
+const me=ME=mk(S.sel,S.own[S.sel]),en=enemy();
+setF('l',me);setF('r',en);skui();lg('⚔️ '+en.c.n+' ('+R[en.c.r]+') ปรากฏตัว!');sfx('start');await wait(800);
+while(me.hp>0&&en.hp>0){me.e+=me.spd;en.e+=en.spd;
+if(me.e>=100&&me.e>=en.e){me.e-=100;await act(me,en,'l','r')}else if(en.e>=100){en.e-=100;await act(en,me,'r','l')}}
+const w=me.hp>0;ME=null;skui();
+$(w?'#fr':'#fl').classList.add('dead');await wait(600);
+if(w){S.streak++;const g=rw(S.streak);S.coins+=g;S.earned+=g;up();save();sfx('win');setTimeout(()=>sfx('coin'),600);
+ov(`<h2>🏆 ชนะ!</h2><p>ชนะติดกัน ${S.streak} ครั้ง<br><span class=g>+${g} 🪙</span></p><button class=go data-a="nx">ไปต่อ</button>`);
+if(AU)setTimeout(()=>{if(AU&&busy){nx();fight()}},1300)}
+else{sfx('lose');const s=S.streak;S.coins+=10;S.streak=0;S.earned=0;S.rid=Date.now();AU=0;$('#au').textContent='🔁 ออโต้';save();
+ov(`<h2>💀 แพ้แล้ว</h2><p>สถิติรอบนี้ ชนะติดกัน ${s} ครั้ง<br>ปลอบใจ <span class=g>+10 🪙</span> (ออโต้หยุดแล้ว)</p><button class=go data-a="nx tab:1">ไปสุ่มตัว</button> <button data-a="nx">สู้ใหม่</button>`)}}
+function up(){let e=S.board.find(b=>b.id==S.rid);if(!e)S.board.push(e={id:S.rid,n:S.name,s:0,e:0});e.s=S.streak;e.e=S.earned;if(S.adm)e.a=1;S.board.sort((a,b)=>b.s-a.s||b.e-a.e);S.board=S.board.slice(0,20)}
+// gacha
+const roll=()=>{let v=Math.random()*100,r=0;while(r<6&&v>=W[r]){v-=W[r];r++}return r};
+function add(i,n=1){const old=S.own[i]||0;if(!old){S.own[i]=Math.min(5,n);return'ใหม่!'}if(old<5){S.own[i]=Math.min(5,old+n);return'ดาวเพิ่ม ★'}S.coins+=40;return'ดาวเต็ม +40🪙'}
+function pull(n){const cost=n>1?900:100;
+if(S.coins<cost)return sfx('no'),ov(`<h2>🪙 เหรียญไม่พอ</h2><p>ต้องใช้ ${cost} เหรียญ ไปสู้เพิ่มก่อนนะ</p><button data-a="x">ตกลง</button>`);
+S.coins-=cost;sfx('pull');const rs=[];for(let j=0;j<n;j++)rs.push(roll());if(n>1&&Math.max(...rs)<1)rs[n-1]=1;
+let h='';rs.forEach((r,j)=>{const i=pick(ids(r)),tag=add(i);h+=card(i,S.own[i],300+j*90,tag);tone(500+r*120,.18,'triangle',.15,.3+j*.09);if(r>=3)[784,988,1175,1568].forEach((f,k)=>tone(f,.3,'square',.1,.3+j*.09+k*.1))});
+$('#gr').innerHTML=h;save();hd();strip()}
+function claim(){if(!gOpen())return rgf();const a=[...ids(4),...ids(5),...ids(6)],p1=pick(a);let p2=pick(a);if(p2==p1)p2=pick(a);
+const h=[p1,p2].map((i,j)=>card(i,(add(i),S.own[i]),200+j*200,'🎁 แจกฟรี')).join('');S.gd=gk();save();$('#gr').innerHTML=h;sfx('win');rgf();hd();strip()}
+// handlers
+const b64=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))),unb=s=>JSON.parse(decodeURIComponent(escape(atob(s.trim()))));
+const box=(t,v,btn)=>ov(`<h2>${t}</h2><textarea id="tx" rows="4" style="width:100%" readonly onclick="this.select()">${v}</textarea><p><button class=go data-a="x">ปิด</button></p>`),
+H={tab:v=>tab(+v),x,nx,fight,pull:v=>pull(+v),claim,
+mt:()=>{S.mu=!S.mu;save();hd()},fs:()=>{try{document.documentElement.requestFullscreen()}catch(e){}},
+auto:()=>{AU=!AU;$('#au').textContent=AU?'⏹ หยุดออโต้':'🔁 ออโต้';if(AU&&!busy)fight()},
+spd:()=>{SPD=SPD==1?2:SPD==2?3:1;$('#sd').textContent='⏩ x'+SPD},
+skl:k=>{const m=ME;if(!m||!busy||AU)return;if(m.pend==k)m.pend=0;else if(m.sp<SC[k]){sfx('no');lg('พลังไม่พอ (ต้องใช้ '+SC[k]+' ●)')}else{m.pend=k;sfx('sel');lg('จะใช้ '+SKL[k]+' ในตาถัดไป')}skui()},
+bk:()=>box('💾 รหัสสำรอง (คัดลอกเก็บไว้)',b64(S)),
+rsr:()=>ov(`<h2>📥 กู้คืน</h2><textarea id="tx" rows="4" style="width:100%" placeholder="วางรหัสสำรอง"></textarea><p><button class=go data-a="dorst">กู้คืน</button> <button data-a="x">ยกเลิก</button></p>`),
+dorst:()=>{try{const o=unb($('#tx').value);if(!valid(o))throw 0;try{localStorage.setItem(KB+'-pre',JSON.stringify(S))}catch(e){}localStorage.setItem(K,JSON.stringify(o));location.reload()}catch(e){sfx('no');alert('รหัสไม่ถูกต้อง')}},
+rs:()=>{if(confirm('ล้างข้อมูลเกมทั้งหมด? (ตัวละครและเหรียญจะหาย)')&&confirm('แน่ใจจริงๆ? ควรกดสำรองก่อน')){try{localStorage.setItem(KB+'-pre',JSON.stringify(S))}catch(e){}localStorage.removeItem(K);location.reload()}},
+nm:()=>{if(Date.now()-nmT>2500)nmN=0;nmT=Date.now();if(++nmN>=5){nmN=0;if(prompt('รหัสแอดมิน')===ADMIN_PW){ADM=1;$('#nadm').style.display='';tab(5)}}},
+tsel:v=>{TS=+v;rtr()},
+send:()=>{if(!S.own[TS])return ov('<h2>เลือกตัวก่อน</h2><button data-a="x">ตกลง</button>');if(Object.keys(S.own).length<2)return ov('<h2>ส่งไม่ได้</h2><p>ต้องเหลืออย่างน้อย 1 ตัว</p><button data-a="x">ตกลง</button>');
+if(!confirm('ส่ง '+C[TS].n+' ('+S.own[TS]+'★)? ตัวนี้จะหายจากคลังคุณทันที'))return;
+const n=Math.random().toString(36).slice(2,10)+Date.now().toString(36),code=b64({v:1,i:TS,s:S.own[TS],n,f:S.name});
+delete S.own[TS];S.sent.push(n);if(S.sel==TS)S.sel=+Object.keys(S.own)[0];TS=-1;save();strip();rtr();box('🔁 รหัสส่ง (ส่งให้เพื่อน)',code)},
+recv:()=>{try{const o=unb($('#ti').value);if(!(o.v==1&&Number.isInteger(o.i)&&C[o.i]&&Number.isInteger(o.s)&&o.s>=1&&o.s<=5&&typeof o.n=='string'&&o.n.length>=8&&o.n.length<=40))throw 0;
+if(S.tu.includes(o.n)||S.sent.includes(o.n))return ov('<h2>รหัสนี้ใช้ไม่ได้</h2><p>เคยรับแล้ว หรือเป็นรหัสที่คุณสร้างเอง</p><button data-a="x">ตกลง</button>');
+const tag=add(o.i,o.s);S.tu.push(o.n);if(S.tu.length>300)S.tu.shift();save();$('#ti').value='';strip();rtr();hd();sfx('win');ov(`<h2>ได้รับจาก ${esc(String(o.f||'เพื่อน').slice(0,12))}</h2>${card(o.i,S.own[o.i],0,tag)}<p><button class=go data-a="x">ตกลง</button></p>`)}catch(e){sfx('no');ov('<h2>รหัสไม่ถูกต้อง</h2><button data-a="x">ตกลง</button>')}},
+mcoin:()=>{const n=Math.floor(+$('#ac').value);if(!(n>0))return;S.coins+=Math.min(n,1e9);S.adm=1;save();hd();sfx('coin')},
+mchar:()=>{const i=+$('#ach').value,s=+$('#ast').value;S.own[i]=Math.max(S.own[i]||0,s);S.adm=1;save();strip();sfx('win');ov(`<h2>เสกแล้ว</h2>${card(i,S.own[i])}<p><button class=go data-a="x">ตกลง</button></p>`)},
+mall:()=>{C.forEach((c,i)=>S.own[i]=5);S.adm=1;save();strip();sfx('win')},
+mgd:()=>{S.gd='';save();sfx('sel')}};
+document.addEventListener('click',e=>{const m=e.target.closest('#st .mc[data-i]');if(m&&!busy){S.sel=+m.dataset.i;save();strip();sfx('sel');return}
+const a=e.target.closest('[data-a]');if(!a)return;a.dataset.a.split(' ').forEach(s=>{const[n,v]=s.split(':');H[n]&&H[n](v,a)})});
+hd();strip();tab(0);
+</script></body></html>
